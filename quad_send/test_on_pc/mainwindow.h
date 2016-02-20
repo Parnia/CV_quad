@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "quad_board.h"
 #include "capture.h"
+#include "plot_opencv.h"
 
 namespace Ui {
 class MainWindow;
@@ -28,15 +29,8 @@ public:
 
     void ReadRecPacket(QByteArray data);
 
-       
-     //QBuffer buff;  
-
-    Capture capture;
-    std::vector<uchar> enc_buff;
-    std::vector<int> compression_params;
-
-    Mat gray_frame;
-
+    Plot_opencv plot1;
+    std::vector<double> plot_datas;
 
     QUdpSocket *send_img_socket;
     QHostAddress *GS_IP;
@@ -45,6 +39,7 @@ public:
     QByteArray data;
 
     Quad_Board *transmit;
+    Capture capture;
 
     int data_ready;
 
@@ -55,19 +50,23 @@ public:
     float height_;
     float y_;
 
-
     QImage image;
+
+    Mat mat_test;
+
 
     QImage Mat2QImage(Mat const& src)  //GRAY
     {
         Mat temp; // make the same cv::Mat
-        cvtColor(src, temp, COLOR_BGR2RGB); // cvtColor Makes a copt, that what i need
+        cvtColor(src, temp, COLOR_BGR2GRAY); // cvtColor Makes a copt, that what i need
         //src.copyTo(temp);
-        QImage dest((uchar*) temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
+        QImage dest((uchar*) temp.data, temp.cols, temp.rows, temp.step, QImage::Format_Grayscale8);
         QImage dest2(dest);
         dest2.detach(); // enforce deep copy
         return dest2;
     }
+
+
 
 
 public slots:

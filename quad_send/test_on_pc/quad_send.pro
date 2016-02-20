@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui network
-CONFIG += serialport
+QT += serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,11 +16,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     quad_board.cpp \
-    capture.cpp
+    capture.cpp \
+    plot_opencv.cpp
 
 HEADERS  += mainwindow.h \
     quad_board.h \
-    capture.h
+    capture.h \
+    plot_opencv.h
 
 FORMS    += mainwindow.ui
 
