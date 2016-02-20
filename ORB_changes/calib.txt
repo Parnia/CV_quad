@@ -1,0 +1,27 @@
+320*240
+# Camera calibration parameters (OpenCV) 
+Camera.fx: 615.1265
+Camera.fy: 620.1465 
+Camera.cx: 311.3944
+Camera.cy: 265.8298
+
+# Camera distortion paremeters (OpenCV) --
+Camera.k1: -0.4384
+Camera.k2: 0.2268
+Camera.p1: -0.0035
+Camera.p2: -0.0013
+
+
+640*480
+# Camera calibration parameters (OpenCV) 
+Camera.fx: 882.0639
+Camera.fy: 889.6158 
+Camera.cx: 287.0301
+Camera.cy: 229.6469
+
+# Camera distortion paremeters (OpenCV) --
+Camera.k1: -0.7552
+Camera.k2: 0.4882
+Camera.p1: 0.0334
+Camera.p2: 0.0133
+
