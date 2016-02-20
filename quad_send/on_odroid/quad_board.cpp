@@ -10,7 +10,7 @@ Quad_Board::Quad_Board(QObject *parent) : QObject(parent)
     serial_port->setPortName(_DEV_SERIAL);
     serial_port->open(QIODevice::ReadWrite);
 
-    serial_port->setBaudRate(QSerialPort::Baud38400);
+    serial_port->setBaudRate(QSerialPort::Baud57600);
     serial_port->setParity(QSerialPort::NoParity);
     serial_port->setFlowControl(QSerialPort::NoFlowControl);
     serial_port->setDataBits(QSerialPort::Data8);

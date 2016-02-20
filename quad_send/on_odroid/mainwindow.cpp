@@ -7,10 +7,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    plot_datas.resize(3);
+    compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
+    compression_params.push_back(80);
+
     transmit = new Quad_Board();
 
-    GS_IP = new QHostAddress("127.0.0.1");
+    capture.set_frame_status(0);
+
+    GS_IP = new QHostAddress("192.168.1.109");
     send_img_socket = new QUdpSocket(this);
     GS_img_port=1234;
 
@@ -22,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     data_timer = new QTimer(this);
     connect(data_timer,SIGNAL(timeout()),this,SLOT(timerEvent()));
-    data_timer->start(5);
+    data_timer->start(2);
 
 }
 
@@ -36,51 +40,42 @@ void MainWindow::timerEvent()
 
     if (capture.get_frame_status()==1)
     {
-        capture.set_frame_status(0);
-//imshow("test2",capture.frame);
+      
 
-        image = Mat2QImage(capture.frame); //& GRAY
+       capture.set_frame_status(0);
 
-  //      qDebug() << image.size() << "good";
-
+        /*image = Mat2QImage(capture.frame);
         QBuffer buff;
         QImageWriter writer(&buff, "JPEG");
-        writer.setQuality(80);
+        writer.setQuality(80);        
         writer.write(image);
-        data = buff.data();
+        data = buff.data();*/
 
-//        writer.setDevice(&buffer);
-//        writer.setFormat("JPEG");
-//        writer.setCompression(9); quality?
-
-//        unsigned int size=capture.enc_buff.size();
-//        data.resize(size);
-//        for(unsigned int i=0; i<size; i++)
-//        data[i]=(unsigned char)capture.enc_buff[i];
+        //cvtColor(capture.frame,gray_frame,COLOR_BGR2GRAY);
+        imencode(".jpg",capture.gray_frame,enc_buff,compression_params);
+        unsigned int size=enc_buff.size();
+        data.resize(size);
+        for(unsigned int i=0; i<size; i++)
+        data[i]=(unsigned char)enc_buff[i];
 
 
-//        std::vector<uchar> bufferToCompress(data.begin(), data.end());
-//        imdecode(bufferToCompress,CV_LOAD_IMAGE_COLOR,&capture.dec_mat);
-//        imshow("decoded",capture.dec_mat);
-
-
-
+        
         send_img_socket->writeDatagram(data, *GS_IP, GS_img_port);
         send_img_socket->flush();
         data.clear();
-//        qDebug() << "ok";
-    }
+    }   
 
     if (data_ready==1)
     {
         data_ready=0;
-        //transmit->Fill_Data(3,(float)x_,(float)y_,(float)height_);
-        //qDebug() << x_ << y_ << height_;
-        plot_datas[0] = x_;  //red
-        plot_datas[1] = y_;  //blue
-        plot_datas[2] = height_;  //green
-        plot1.Plot("x y h", -60, 60, plot_datas);
-    }
+        
+        int x=100*x_;
+        int y=100*y_;
+        int h=100*height_;
+
+        transmit->Fill_Data(3,(int)x,(int)y,(int)h);
+        qDebug() << y;
+    }    
 
 }
 

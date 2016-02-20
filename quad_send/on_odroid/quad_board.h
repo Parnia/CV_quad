@@ -7,7 +7,7 @@
 #include "QtSerialPort/QSerialPortInfo"
 #include "qdebug.h"
 
-#define _DEV_SERIAL            "ttyUSB0"
+#define _DEV_SERIAL            "ttySAC0"
 //"/dev/ttyUSB0"
 #define MPC_BUFF_AMOUNT  11
 

@@ -9,9 +9,10 @@ int main(int argc, char *argv[])
     //w.show();
     QThread thr1,thr2;
 
-    w.capture.moveToThread(&thr1);
-    thr1.start();
-
+//    w.transmit->moveToThread(&thr2);
+    w.capture.moveToThread(&thr2);
+    thr2.start();
+//    thr2.start();
 
     return a.exec();
 }
